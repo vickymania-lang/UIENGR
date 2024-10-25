@@ -80,40 +80,34 @@
 
                 </div>
             </nav>
-            
-            <h1>Entry Details</h1>
-            <div id="entryDetails"></div>
-        
+            <main>
+                <div style="margin: 40px; text-align:center; ">
+                    <h1 id="entryTitle"></h1>
+                </div>
+                <div style="margin: 40px; text-align: center; ">
+                    <p id="entryMessage"></p>
+                </div>
+                
+                
+                <!-- <time id="entryDate"></time> -->
+            </main>
             <script>
-                // Function to get query parameters
-                function getQueryParams() {
-                    const params = new URLSearchParams(window.location.search);
-                    return {
-                        id: params.get('id')
-                    };
-                }
-        
-                // Retrieve the entry ID from the URL
-                const { id } = getQueryParams();
-                
-                // Retrieve entries from local storage
-                const entries = JSON.parse(localStorage.getItem("entries")) || [];
-                
-                // Find the entry by ID
-                const entry = entries.find(entry => entry.id == id);
-        
-                // Display the entry details
-                const entryDetails = document.getElementById("entryDetails");
-                if (entry && entry.data) {
-                    entryDetails.innerHTML = `
-                        <p>ID: ${entry.id}</p>
-                        <p>Name: ${entry.data.name}</p>
-                        <p>Date: ${entry.data.date}</p>
-                        <p>Message: ${entry.data.message}</p>
-                    `;
-                } else {
-                    entryDetails.innerHTML = "<p>Entry not found.</p>";
-                }
+                 // Get entry ID from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const entryId = urlParams.get("id");
+
+        // Retrieve entries from local storage
+        const entries = JSON.parse(localStorage.getItem("entries")) || [];
+        const entry = entries[entryId];
+
+        if (entry) {
+            document.getElementById("entryTitle").textContent = entry.data.name;
+            document.getElementById("entryMessage").textContent = entry.data.message;
+            document.getElementById("entryDate").textContent = entry.data.date;
+        } else {
+            document.body.innerHTML = "<p>Entry not found.</p>";
+        }
+
             </script>           
         </main>
 
